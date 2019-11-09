@@ -172,6 +172,7 @@ MFRC522::StatusCode status;
 #define busyPin 4
 
 #define LONG_PRESS 1000
+#define MAX_VOLUME 25
 
 Button pauseButton(buttonPause);
 Button upButton(buttonUp);
@@ -260,7 +261,13 @@ void loop() {
 
     if (upButton.pressedFor(LONG_PRESS)) {
       Serial.println(F("Volume Up"));
-      mp3.increaseVolume();
+      if (mp3.getVolume() < MAX_VOLUME) {
+        mp3.increaseVolume();
+      } else {
+        Serial.println(F("Maximum volume reached"));
+      }
+      Serial.print(F("New volume: "));
+      Serial.println(mp3.getVolume());
       ignoreUpButton = true;
     } else if (upButton.wasReleased()) {
       if (!ignoreUpButton)
@@ -272,6 +279,8 @@ void loop() {
     if (downButton.pressedFor(LONG_PRESS)) {
       Serial.println(F("Volume Down"));
       mp3.decreaseVolume();
+      Serial.print(F("New volume: "));
+      Serial.println(mp3.getVolume());
       ignoreDownButton = true;
     } else if (downButton.wasReleased()) {
       if (!ignoreDownButton)
