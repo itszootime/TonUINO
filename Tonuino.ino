@@ -260,32 +260,32 @@ void loop() {
     }
 
     if (upButton.pressedFor(LONG_PRESS)) {
-      nextTrack(random(65536));
+      Serial.println(F("Volume Up"));
+      if (mp3.getVolume() < MAX_VOLUME) {
+        mp3.increaseVolume();
+      } else {
+        Serial.println(F("Maximum volume reached"));
+      }
+      Serial.print(F("New volume: "));
+      Serial.println(mp3.getVolume());
       ignoreUpButton = true;
     } else if (upButton.wasReleased()) {
       if (!ignoreUpButton) {
-        Serial.println(F("Volume Up"));
-        if (mp3.getVolume() < MAX_VOLUME) {
-          mp3.increaseVolume();
-        } else {
-          Serial.println(F("Maximum volume reached"));
-        }
-        Serial.print(F("New volume: "));
-        Serial.println(mp3.getVolume());
+        nextTrack(random(65536));
       } else {
         ignoreUpButton = false;
       }
     }
 
     if (downButton.pressedFor(LONG_PRESS)) {
-      previousTrack();
+      Serial.println(F("Volume Down"));
+      mp3.decreaseVolume();
+      Serial.print(F("New volume: "));
+      Serial.println(mp3.getVolume());
       ignoreDownButton = true;
     } else if (downButton.wasReleased()) {
       if (!ignoreDownButton) {
-        Serial.println(F("Volume Down"));
-        mp3.decreaseVolume();
-        Serial.print(F("New volume: "));
-        Serial.println(mp3.getVolume());
+        previousTrack();
       } else {
         ignoreDownButton = false;
       }
