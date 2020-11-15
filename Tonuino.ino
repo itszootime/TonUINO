@@ -174,6 +174,7 @@ MFRC522::StatusCode status;
 #define LONG_PRESS 1000
 #define MIN_VOLUME 5
 #define MAX_VOLUME 25
+#define IDLE_TIME_MILLIS 60000
 
 Button pauseButton(buttonPause);
 Button upButton(buttonUp);
@@ -183,6 +184,7 @@ bool ignoreUpButton = false;
 bool ignoreDownButton = false;
 
 uint8_t numberOfCards = 0;
+unsigned long timeOfLastActivity;
 
 bool isPlaying() { return !digitalRead(busyPin); }
 
@@ -226,6 +228,9 @@ void setup() {
     }
   }
 
+  // setup idle timer
+  timeOfLastActivity = millis();
+
   // play a welcome message
   mp3.playMp3FolderTrack(410);
 }
@@ -238,6 +243,16 @@ void loop() {
     pauseButton.read();
     upButton.read();
     downButton.read();
+
+    // idle check
+    if (isPlaying()) {
+      timeOfLastActivity = millis();
+    } else {
+      if ((millis() - timeOfLastActivity) > IDLE_TIME_MILLIS) {
+        mp3.playMp3FolderTrack(411);
+        timeOfLastActivity = millis();
+      }
+    }
 
     if (pauseButton.wasReleased()) {
       if (ignorePauseButton == false) {
