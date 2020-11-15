@@ -1,13 +1,15 @@
 #!/bin/bash
 
 generate () {
+  if [[ ! -f "soundfiles/mp3/$2" ]]; then
     aws polly synthesize-speech \
-        --engine neural \
-        --output-format mp3 \
-        --voice-id Brian \
-        --text-type ssml \
-        --text "<speak><amazon:effect name=\"drc\"><prosody rate=\"110%\">$1</prosody></amazon:effect></speak>" \
-        "soundfiles/mp3/$2"
+      --engine neural \
+      --output-format mp3 \
+      --voice-id Brian \
+      --text-type ssml \
+      --text "<speak><amazon:effect name=\"drc\"><prosody rate=\"110%\">$1</prosody></amazon:effect></speak>" \
+      "soundfiles/mp3/$2"
+  fi
 }
 
 mkdir -p soundfiles/mp3
