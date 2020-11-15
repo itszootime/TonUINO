@@ -172,6 +172,7 @@ MFRC522::StatusCode status;
 #define busyPin 4
 
 #define LONG_PRESS 1000
+#define MIN_VOLUME 5
 #define MAX_VOLUME 25
 
 Button pauseButton(buttonPause);
@@ -279,7 +280,11 @@ void loop() {
 
     if (downButton.pressedFor(LONG_PRESS)) {
       Serial.println(F("Volume Down"));
-      mp3.decreaseVolume();
+      if (mp3.getVolume() > MIN_VOLUME) {
+        mp3.decreaseVolume();
+      } else {
+        Serial.println(F("Minimum volume reached"));
+      }
       Serial.print(F("New volume: "));
       Serial.println(mp3.getVolume());
       ignoreDownButton = true;
