@@ -52,6 +52,12 @@ generate "Yes, announce the track numbers." 0332.mp3
 # generate "OK. Ich habe die Karte konfiguriert." 0400_ok.mp3
 generate "OK, I've configured the card." 0400_ok.mp3
 
+# welcome message
+generate "Hello $1!" 0410_hello.mp3
+
+# idle warning
+generate "Hello? Anybody there? Please turn me off" 0411_idle.mp3
+
 # generate "Oh weh! Das hat leider nicht geklappt!." 0401_error.mp3
 generate "Oopsy daisy! Unfortunately that didn't work." 0401_error.mp3
 

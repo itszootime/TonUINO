@@ -226,6 +226,8 @@ void setup() {
     }
   }
 
+  // play a welcome message
+  mp3.playMp3FolderTrack(410);
 }
 
 void loop() {
